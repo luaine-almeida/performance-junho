@@ -228,7 +228,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 0 10px;}
   <div class="panel" id="panel-vendedores">
     <div class="card" style="margin-bottom:18px;">
       <h3>Volume vs. Conversão por vendedor</h3>
-      <div class="note">Conversão = vendas fechadas ÷ reuniões atendidas no período (todo o pipeline atribuído ao vendedor, não só os já decididos). Bolhas maiores = mais vendas fechadas. Considera apenas closers de 1ª linha — a Kauanny Delgado atua em reativação/3ª linha e está detalhada à parte, abaixo.</div>
+      <div class="note">Conversão = vendas fechadas ÷ reuniões atendidas no período (todo o pipeline atribuído ao vendedor, não só os já decididos). Bolhas maiores = mais vendas fechadas. Considera apenas closers de 1ª linha — a Kauanny Delgado atua em reativação/3ª linha (análise à parte).</div>
       <div class="chart-box tall"><canvas id="chartScatterVendedores"></canvas></div>
     </div>
     <div class="card" style="margin-bottom:18px;">
@@ -251,12 +251,6 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:30px 0 10px;}
         </table>
       </div>
       <div class="note" style="margin-top:10px;margin-bottom:0;">* Conversão = vendas ÷ reuniões atendidas (inclui negócios ainda em aberto no denominador).</div>
-    </div>
-
-    <div class="card" id="cardReativacao">
-      <h3>Reativação / 3ª linha — Kauanny Delgado</h3>
-      <div class="note">Kauanny não atende reuniões de 1ª linha: ela trabalha uma carteira própria (15 negócios em junho) e também dá suporte de reativação a leads de <b>outros vendedores</b> que esfriaram ou pararam — quando esses fecham, a venda conta para o vendedor original, não para ela. Por isso ela fica de fora do ranking de 1ª linha acima.</div>
-      <div class="grid g3" id="reativacaoKpis"></div>
     </div>
   </div>
 
@@ -597,18 +591,6 @@ document.querySelectorAll('#tblVendedores th').forEach(th => {
   th.addEventListener('click', () => { dir *= -1; renderVendTable(th.dataset.k, dir); });
 });
 
-// ---- Reativação / 3ª linha (Kauanny) ----
-const rt = DATA.reativacao;
-if (rt) {
-  const reatKpis = [
-    {lbl:'Carteira própria (junho)', val: fmt(rt.total), sub:`${rt.won} vendas · ${rt.lost} perdas`},
-    {lbl:'Conversão', val: fmtPct(rt.conv), sub: `${rt.won} vendas ÷ ${rt.total} reuniões atendidas`},
-    {lbl:'Suporte a outros vendedores', val: fmt(rt.suporte_total), sub:`${rt.suporte_em_andamento} leads em reativação agora (venda conta pro vendedor original)`},
-  ];
-  document.getElementById('reativacaoKpis').innerHTML = reatKpis.map(c => `
-    <div class="kpi"><div class="lbl">${c.lbl}</div><div class="val">${c.val}</div><div class="sub">${c.sub}</div></div>
-  `).join('');
-}
 
 // ================= DESCONTOS =================
 document.getElementById('discMedia').textContent = fmtPct(DATA.desconto_geral.media);
